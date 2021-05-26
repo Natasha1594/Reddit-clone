@@ -11,3 +11,11 @@ class BaseModel(models.Model):
             return cls.objects.get(**kwargs)
         except cls.DoesNotExist:
             return None
+
+class Votable(BaseModel):
+    upvote_count = models.PositiveBigIntegerField(default=0)
+    downvote_count = models.PositiveBigIntegerField(default=0)
+    class Meta: abstract = True
+
+    def get_score(self):
+        return self.upvote_count - self.downvote_count
